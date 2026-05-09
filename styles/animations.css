@@ -1,0 +1,400 @@
+/* =========================
+   FLOATING ANIMATIONS
+========================= */
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* =========================
+   SLOW FLOAT
+========================= */
+
+@keyframes floatSlow {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-30px) rotate(4deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 10s ease-in-out infinite;
+}
+
+/* =========================
+   ROTATE
+========================= */
+
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-slow {
+  animation: rotateSlow 25s linear infinite;
+}
+
+/* =========================
+   PULSE GLOW
+========================= */
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 71, 255, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(0, 71, 255, 0.45);
+  }
+
+  100% {
+    box-shadow: 0 0 0 rgba(0, 71, 255, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* =========================
+   TEXT GRADIENT FLOW
+========================= */
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 300% 300%;
+  animation: gradientMove 8s ease infinite;
+}
+
+/* =========================
+   MARQUEE
+========================= */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* =========================
+   BOUNCE
+========================= */
+
+@keyframes bounceSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-soft {
+  animation: bounceSoft 2.5s infinite;
+}
+
+/* =========================
+   CONFETTI SPIN
+========================= */
+
+@keyframes confettiSpin {
+  0% {
+    transform: rotate(0deg) translateY(0px);
+  }
+
+  50% {
+    transform: rotate(180deg) translateY(-20px);
+  }
+
+  100% {
+    transform: rotate(360deg) translateY(0px);
+  }
+}
+
+.animate-confetti {
+  animation: confettiSpin 8s linear infinite;
+}
+
+/* =========================
+   BLINK
+========================= */
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.animate-blink {
+  animation: blink 1.5s infinite;
+}
+
+/* =========================
+   WIGGLE
+========================= */
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(3deg);
+  }
+
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 1.5s ease-in-out infinite;
+}
+
+/* =========================
+   SCALE POP
+========================= */
+
+@keyframes scalePop {
+  0% {
+    transform: scale(0.95);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(0.95);
+  }
+}
+
+.animate-scale-pop {
+  animation: scalePop 3s ease-in-out infinite;
+}
+
+/* =========================
+   FADE UP
+========================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 1s ease forwards;
+}
+
+/* =========================
+   SHIMMER
+========================= */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 50%;
+  height: 100%;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  transform: skewX(-20deg);
+
+  animation: shimmer 3s infinite;
+}
+
+/* =========================
+   SPIN GLOW
+========================= */
+
+@keyframes spinGlow {
+  0% {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 10px rgba(0, 71, 255, 0.3));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 30px rgba(255, 49, 49, 0.5));
+  }
+
+  100% {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 0 10px rgba(0, 200, 83, 0.3));
+  }
+}
+
+.animate-spin-glow {
+  animation: spinGlow 12s linear infinite;
+}
+
+/* =========================
+   NOISE OVERLAY
+========================= */
+
+.noise-overlay::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background-image: url('/bg/noise.png');
+  opacity: 0.05;
+
+  pointer-events: none;
+}
+
+/* =========================
+   HOVER LIFT
+========================= */
+
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+
+/* =========================
+   GLASS CARD
+========================= */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* =========================
+   STADIUM LIGHT EFFECT
+========================= */
+
+.stadium-light {
+  position: absolute;
+
+  width: 600px;
+  height: 600px;
+
+  border-radius: 9999px;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.35) 0%,
+    rgba(255,255,255,0) 70%
+  );
+
+  filter: blur(60px);
+
+  pointer-events: none;
+}
+
+/* =========================
+   CUSTOM SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #0047ff,
+    #ff3131,
+    #00c853
+  );
+
+  border-radius: 999px;
+}
+
+/* =========================
+   SELECTION
+========================= */
+
+::selection {
+  background: #0047ff;
+  color: white;
+}
