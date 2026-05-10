@@ -64,41 +64,149 @@ export default function Tokenomics() {
           <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center">
 
             {/* TEXT */}
-            <div className="space-y-2">
-              <h3 className="text-4xl font-black">DAIDAI</h3>
+            <div className="space-y-6">
 
-              <p>TICKER: <b>$DAI</b></p>
-              <p>NETWORK: <b>ETH</b></p>
-              <p>TOTAL SUPPLY: <b>26,000,000,000</b></p>
+              {/* TITLE */}
+              <div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white text-xs font-bold tracking-[0.2em]">
+                  ⚽ MEME FOOTBALL TOKEN
+                </div>
 
-              <p>
-                LIQUIDITY:{" "}
-                <span className="text-green-600 font-bold">
-                  🔥 BURNED COMPLETELY
-                </span>
-              </p>
+                <h3 className="text-5xl lg:text-6xl font-black mt-4 leading-none">
+                  DAIDAI
+                </h3>
 
-              <p>TAX: <b>BUY 0% / SELL 0%</b></p>
+                <p className="text-black/50 mt-2 text-lg">
+                  The football meme engine built for global domination.
+                </p>
+              </div>
 
-              {/* tags */}
-              <div className="flex flex-wrap gap-2 mt-4">
-                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
+              {/* STATS */}
+              <div className="grid grid-cols-2 gap-4">
+
+                {/* TICKER */}
+                <div className="rounded-2xl border bg-gradient-to-br from-white to-green-50 p-4 shadow-sm">
+                  <p className="text-xs text-black/50 mb-1 tracking-widest">
+                    TICKER
+                  </p>
+
+                  <h4 className="text-2xl font-black text-green-600">
+                    $DAIDAI
+                  </h4>
+                </div>
+
+                {/* NETWORK */}
+                <div className="rounded-2xl border bg-gradient-to-br from-white to-blue-50 p-4 shadow-sm">
+                  <p className="text-xs text-black/50 mb-1 tracking-widest">
+                    NETWORK
+                  </p>
+
+                  <h4 className="text-2xl font-black text-blue-600">
+                    ETH
+                  </h4>
+                </div>
+
+                {/* SUPPLY */}
+                <div className="col-span-2 rounded-2xl border bg-gradient-to-r from-white to-neutral-50 p-5 shadow-sm">
+                  <p className="text-xs text-black/50 mb-2 tracking-widest">
+                    TOTAL SUPPLY
+                  </p>
+
+                  <div className="flex items-end gap-2 flex-wrap">
+                    <span className="text-4xl font-black">
+                      26B
+                    </span>
+
+                    <span className="text-black/50 pb-1">
+                      tokens
+                    </span>
+                  </div>
+                </div>
+
+                {/* LIQUIDITY */}
+                <div className="col-span-2 rounded-2xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-5 shadow-sm relative overflow-hidden">
+
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-green-400/10 rounded-full blur-3xl" />
+
+                  <p className="text-xs text-green-700 mb-2 tracking-widest font-bold">
+                    LIQUIDITY
+                  </p>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl">
+                      🔥
+                    </span>
+
+                    <div>
+                      <h4 className="text-2xl font-black text-green-600">
+                        BURNED
+                      </h4>
+
+                      <p className="text-sm text-black/60">
+                        Completely locked forever
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* TAX */}
+                <div className="col-span-2 rounded-2xl border bg-gradient-to-r from-red-50 via-white to-blue-50 p-5 shadow-sm">
+
+                  <p className="text-xs text-black/50 mb-3 tracking-widest">
+                    TAX SYSTEM
+                  </p>
+
+                  <div className="flex gap-3">
+
+                    <div className="flex-1 rounded-xl bg-green-100 p-4 text-center">
+                      <p className="text-xs text-black/50 mb-1">
+                        BUY TAX
+                      </p>
+
+                      <h4 className="text-3xl font-black text-green-600">
+                        0%
+                      </h4>
+                    </div>
+
+                    <div className="flex-1 rounded-xl bg-red-100 p-4 text-center">
+                      <p className="text-xs text-black/50 mb-1">
+                        SELL TAX
+                      </p>
+
+                      <h4 className="text-3xl font-black text-red-500">
+                        0%
+                      </h4>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+              {/* TAGS */}
+              <div className="flex flex-wrap gap-2">
+
+                <span className="px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
                   Community Driven
                 </span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+
+                <span className="px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
                   Football Culture
                 </span>
-                <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm">
+
+                <span className="px-4 py-2 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
                   Meme Engine
                 </span>
+
               </div>
+
             </div>
 
             {/* IMAGE */}
             <motion.div
               animate={{ rotate: [0, 3, -3, 0] }}
               transition={{ duration: 6, repeat: Infinity }}
-              className="relative w-full h-[220px]"
+              className="relative w-full h-[400px]"
             >
               <Image
                 src="/logos/ball.png"

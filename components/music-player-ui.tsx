@@ -301,7 +301,10 @@ const toggle = async () => {
     Math.min(1, energy + (beat ? 0.5 : 0))
 
 return (
-  <div className="relative w-full h-screen overflow-hidden bg-black text-white">
+  <div
+  id="daidai"
+  className="relative w-full h-screen overflow-hidden bg-black text-white"
+>
 
     {/* ================= BACKGROUND ================= */}
     <motion.div

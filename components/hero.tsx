@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 
 import {
   FaTelegramPlane,
-  FaDiscord,
-  FaTwitter,
   FaTiktok,
 } from "react-icons/fa";
+
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function Hero() {
   return (
@@ -56,15 +56,27 @@ export default function Hero() {
           </div>
 
           {/* Heading */}
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl leading-[0.95] mb-6">
-            THE SONGS{" "}
-            <span className="text-redMain">OF THE.</span>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl leading-[0.95] mb-6">
 
-            <br />
+              <span className="text-white">
+                THE SONG
+              </span>{" "}
 
-            WORLD'S{" "}
-            <span className="text-blueMain">UNITED.</span>
-          </h1>
+              <span className="text-blueMain">
+                OF THE
+              </span>
+
+              <br />
+
+              <span className="text-green-500">
+                WORLD'S
+              </span>{" "}
+
+              <span className="text-redMain">
+                UNITED
+              </span>
+
+            </h1>
 
           {/* Description */}
           <p className="text-lg lg:text-xl text-black/70 max-w-xl mb-10 mx-auto lg:mx-0">
@@ -75,40 +87,52 @@ export default function Hero() {
 
           {/* Buttons */}
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-10">
+
+            {/* BUY */}
             <button className="bg-blueMain text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-xl">
               BUY $DAIDAI
             </button>
 
-            <button className="border-2 border-black px-8 py-4 rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all">
+            {/* COMMUNITY */}
+            <a
+              href="https://t.me/DaiDai_eth"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 border-black px-8 py-4 rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all inline-block"
+            >
               JOIN COMMUNITY
-            </button>
+            </a>
+
+            {/* WHITEPAPER */}
+            <a
+              href="/DAIDAI-Whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-redMain text-white px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-all shadow-xl inline-block"
+            >
+              WHITEPAPER
+            </a>
+
           </div>
 
           {/* Socials */}
           <div className="flex items-center justify-center lg:justify-start gap-5 text-2xl">
             <a
-              href="#"
+              href="https://t.me/DaiDai_eth"
               className="hover:text-blueMain transition-all hover:scale-110"
             >
               <FaTelegramPlane />
             </a>
 
             <a
-              href="#"
-              className="hover:text-indigo-500 transition-all hover:scale-110"
-            >
-              <FaDiscord />
-            </a>
-
-            <a
-              href="#"
+              href="https://x.com/DaiDai_eth"
               className="hover:text-sky-500 transition-all hover:scale-110"
             >
-              <FaTwitter />
+              <FaXTwitter />
             </a>
 
             <a
-              href="#"
+              href="https://tiktok.com/@daidai_eth"
               className="hover:text-black transition-all hover:scale-110"
             >
               <FaTiktok />

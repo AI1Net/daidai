@@ -12,9 +12,9 @@ export default function Navbar() {
   const links = [
     { name: "HOME", href: "#" },
     { name: "ABOUT", href: "#about" },
-    { name: "TOKENOMICS", href: "#tokenomics" },
+    { name: "DAI DAI", href: "#daidai" },
     { name: "ROADMAP", href: "#roadmap" },
-    { name: "FAQ", href: "#faq" },
+    { name: "TOKENOMICS", href: "#tokenomics" },
   ];
 
   return (

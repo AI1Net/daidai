@@ -5,7 +5,6 @@ import Image from "next/image"
 
 import {
   FaTelegramPlane,
-  FaDiscord,
   FaTiktok,
 } from "react-icons/fa"
 
@@ -93,27 +92,28 @@ export default function Community() {
             Football culture meets meme energy. Build the biggest internet movement together.
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-10">
-            <button className="bg-white text-black px-8 py-4 rounded-full font-bold hover:scale-105 transition">
-              JOIN TELEGRAM
-            </button>
+        <div className="flex flex-wrap gap-4 mb-10">
 
-            <button className="border-2 border-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-black transition">
-              FOLLOW X
-            </button>
-          </div>
+          <a
+            href="https://t.me/DaiDai_eth"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-black px-8 py-4 rounded-full font-bold hover:scale-105 transition inline-flex items-center justify-center"
+          >
+            JOIN TELEGRAM
+          </a>
 
-          <div className="flex gap-5 text-3xl">
-            {[FaTelegramPlane, FaDiscord, FaXTwitter, FaTiktok].map((Icon, i) => (
-              <a
-                key={i}
-                href="#"
-                className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center hover:bg-white hover:text-black transition"
-              >
-                <Icon />
-              </a>
-            ))}
-          </div>
+          <a
+            href="https://x.com/DaiDai_eth"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-2 border-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-black transition inline-flex items-center justify-center"
+          >
+            FOLLOW X
+          </a>
+
+        </div>
+
         </motion.div>
 
         {/* RIGHT */}
@@ -146,7 +146,7 @@ export default function Community() {
           <div className="absolute -bottom-6 right-0 text-right">
             <h3 className="text-4xl lg:text-6xl leading-none">
               ONE WORLD.<br />
-              <span className="text-yellowMain">ONE MEME.</span><br />
+              <span className="text-yellowMain">ONE SONG.</span><br />
               DAI DAI!
             </h3>
           </div>
