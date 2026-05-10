@@ -236,13 +236,39 @@ export default function Sound() {
   // =========================
   // TOGGLE
   // =========================
-  const toggle = async () => {
+const toggle = async () => {
+  try {
     if (!audioRef.current) return
 
+    // INIT AUDIO ONLY ONCE
     if (!initialized) {
-      await initializeAudio()
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as any).webkitAudioContext
+
+      const ctx = new AudioContextClass()
+
+      const analyser = ctx.createAnalyser()
+
+      analyser.fftSize = 1024
+      analyser.smoothingTimeConstant = 0.2
+
+      const source =
+        ctx.createMediaElementSource(
+          audioRef.current
+        )
+
+      source.connect(analyser)
+      analyser.connect(ctx.destination)
+
+      audioCtxRef.current = ctx
+      analyserRef.current = analyser
+      sourceRef.current = source
+
+      setInitialized(true)
     }
 
+    // MOBILE FIX
     if (
       audioCtxRef.current?.state ===
       "suspended"
@@ -254,14 +280,26 @@ export default function Sound() {
       await audioRef.current.play()
 
       setIsPlaying(true)
+
+      rafRef.current =
+        requestAnimationFrame(
+          updateVisualizer
+        )
     } else {
       audioRef.current.pause()
 
       setIsPlaying(false)
 
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+
       setBars(new Array(80).fill(0.01))
     }
+  } catch (err) {
+    console.error("PLAYBACK ERROR:", err)
   }
+}
 
   const glow =
     Math.min(1, energy + (beat ? 0.5 : 0))
@@ -436,6 +474,8 @@ export default function Sound() {
       <audio
         ref={audioRef}
         loop
+        playsInline
+        preload="auto"
         crossOrigin="anonymous"
       >
         <source

@@ -36,10 +36,6 @@ export default function Navbar() {
             <Link href="#faq">FAQ</Link>
           </div>
 
-          {/* ================= BUTTON ================= */}
-          <button className="bg-blueMain text-white px-6 py-3 rounded-full font-bold hover:scale-105 transition-all">
-            LAUNCH APP
-          </button>
 
         </div>
       </div>
