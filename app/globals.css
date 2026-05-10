@@ -30,6 +30,8 @@ body {
   font-family: 'Inter', sans-serif;
   background: #ffffff;
   color: #111111;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -40,11 +42,13 @@ h5,
 h6 {
   font-family: 'Anton', sans-serif;
   letter-spacing: 1px;
+  line-height: 1;
 }
 
 img {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
 .gradient-text {
@@ -64,6 +68,8 @@ img {
 
 .container-custom {
   width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
   padding-inline: 40px;
 }
 
@@ -88,4 +94,102 @@ img {
   text-wrap: balance;
 }
 
+/* ========================= */
+/* TABLET */
+/* ========================= */
 
+@media (max-width: 1024px) {
+
+  .container-custom {
+    padding-inline: 28px;
+  }
+
+  .section-padding {
+    padding-block: 90px;
+  }
+
+  h1 {
+    font-size: 4rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .container-custom {
+    padding-inline: 20px;
+  }
+
+  .section-padding {
+    padding-block: 72px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    line-height: 0.95;
+  }
+
+  h2 {
+    font-size: 2.3rem;
+    line-height: 1;
+  }
+
+  h3 {
+    font-size: 1.8rem;
+  }
+
+  h4 {
+    font-size: 1.4rem;
+  }
+
+  body {
+    font-size: 15px;
+  }
+}
+
+/* ========================= */
+/* SMALL MOBILE */
+/* ========================= */
+
+@media (max-width: 480px) {
+
+  .container-custom {
+    padding-inline: 16px;
+  }
+
+  .section-padding {
+    padding-block: 56px;
+  }
+
+  h1 {
+    font-size: 2.3rem;
+    line-height: 0.95;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
