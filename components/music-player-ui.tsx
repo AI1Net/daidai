@@ -236,13 +236,18 @@ export default function Sound() {
   // =========================
   // TOGGLE
   // =========================
+const isTogglingRef = useRef(false)
+
 const toggle = async () => {
+  if (isTogglingRef.current) return
+
+  isTogglingRef.current = true
+
   try {
     const audio = audioRef.current
 
     if (!audio) return
 
-    // CREATE AUDIO CONTEXT AFTER USER TAP
     if (!audioCtxRef.current) {
       const AudioContextClass =
         window.AudioContext ||
@@ -266,7 +271,6 @@ const toggle = async () => {
       sourceRef.current = source
     }
 
-    // RESUME AUDIO CONTEXT
     if (
       audioCtxRef.current.state ===
       "suspended"
@@ -274,17 +278,11 @@ const toggle = async () => {
       await audioCtxRef.current.resume()
     }
 
-    // PLAY
     if (audio.paused) {
       await audio.play()
-
       setIsPlaying(true)
-    }
-
-    // PAUSE
-    else {
+    } else {
       audio.pause()
-
       setIsPlaying(false)
 
       if (rafRef.current) {
@@ -296,6 +294,10 @@ const toggle = async () => {
   } catch (err) {
     console.error(err)
   }
+
+  setTimeout(() => {
+    isTogglingRef.current = false
+  }, 250)
 }
 
   const glow =
@@ -390,24 +392,23 @@ return (
           </motion.button>
 
           <motion.button
-          onTouchStart={toggle}
-          onClick={toggle}
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ scale: 1.05 }}
-          className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
-          style={{
-            WebkitTapHighlightColor: "transparent",
-          }}
-        >
-          {isPlaying ? (
-            <Pause size={28} />
-          ) : (
-            <Play
-              size={28}
-              className="ml-1"
-            />
-          )}
-        </motion.button>
+            onTouchStart={toggle}
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
+            style={{
+              WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            {isPlaying ? (
+              <Pause size={28} />
+            ) : (
+              <Play
+                size={28}
+                className="ml-1"
+              />
+            )}
+          </motion.button>
 
           <motion.button
             whileTap={{ scale: 0.9 }}
