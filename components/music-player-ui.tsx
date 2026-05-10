@@ -242,10 +242,7 @@ const toggle = async () => {
 
     if (!audio) return
 
-    // FORCE LOAD FOR MOBILE
-    audio.load()
-
-    // CREATE AUDIO CONTEXT ONLY AFTER USER TAP
+    // CREATE AUDIO CONTEXT AFTER USER TAP
     if (!audioCtxRef.current) {
       const AudioContextClass =
         window.AudioContext ||
@@ -269,7 +266,7 @@ const toggle = async () => {
       sourceRef.current = source
     }
 
-    // UNLOCK AUDIO ON MOBILE
+    // RESUME AUDIO CONTEXT
     if (
       audioCtxRef.current.state ===
       "suspended"
@@ -277,21 +274,15 @@ const toggle = async () => {
       await audioCtxRef.current.resume()
     }
 
-    // PLAY / PAUSE
+    // PLAY
     if (audio.paused) {
-      const playPromise = audio.play()
-
-      if (playPromise !== undefined) {
-        await playPromise
-      }
+      await audio.play()
 
       setIsPlaying(true)
+    }
 
-      rafRef.current =
-        requestAnimationFrame(
-          updateVisualizer
-        )
-    } else {
+    // PAUSE
+    else {
       audio.pause()
 
       setIsPlaying(false)
@@ -399,24 +390,24 @@ return (
           </motion.button>
 
           <motion.button
-            onTouchStart={() => {}}
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
-            onClick={toggle}
-            className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
-            style={{
-              WebkitTapHighlightColor: "transparent",
-            }}
-          >
-            {isPlaying ? (
-              <Pause size={28} />
-            ) : (
-              <Play
-                size={28}
-                className="ml-1"
-              />
-            )}
-          </motion.button>
+          onTouchStart={toggle}
+          onClick={toggle}
+          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
+          style={{
+            WebkitTapHighlightColor: "transparent",
+          }}
+        >
+          {isPlaying ? (
+            <Pause size={28} />
+          ) : (
+            <Play
+              size={28}
+              className="ml-1"
+            />
+          )}
+        </motion.button>
 
           <motion.button
             whileTap={{ scale: 0.9 }}
