@@ -328,19 +328,19 @@ return (
     </motion.div>
 
     {/* ================= MAIN PLAYER ================= */}
-    <div className="absolute inset-0 flex items-center justify-center -translate-y-2 sm:translate-y-0 z-30 pointer-events-none">
+    <div className="absolute inset-0 flex items-start justify-center pt-16 sm:items-center sm:pt-0 z-30 pointer-events-none">
 
       <motion.div
         animate={{
+          y: [-50, 0], // slight lift on mobile feel
           scale: 1 + energy * 0.04,
-          y: beat ? -4 : 0,
         }}
         transition={{
           type: "spring",
           stiffness: 200,
           damping: 20,
         }}
-        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden -translate-y-[6px] sm:translate-y-0"
+        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden"
       >
 
         {/* GLOW */}
