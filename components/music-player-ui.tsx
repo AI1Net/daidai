@@ -8,6 +8,7 @@ import {
   SkipForward,
 } from "lucide-react"
 import { motion } from "framer-motion"
+import { getOptimizations, isMobileDevice } from "@/lib/mobile"
 
 export default function Sound() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -18,13 +19,15 @@ export default function Sound() {
   const isTogglingRef = useRef(false)
 
   const [isPlaying, setIsPlaying] = useState(false)
-  const [bars, setBars] = useState<number[]>(
-    new Array(80).fill(0.01)
-  )
 
   const [energy, setEnergy] = useState(0)
   const [beat, setBeat] = useState(false)
   const [initialized, setInitialized] = useState(false)
+  const [optimizations] = useState(() => getOptimizations())
+
+  const [bars, setBars] = useState<number[]>(
+    new Array(optimizations.barsCount).fill(0.01)
+  )
 
   // =========================
   // AUDIO INIT
@@ -45,7 +48,7 @@ export default function Sound() {
 
       const analyser = ctx.createAnalyser()
 
-      analyser.fftSize = 1024
+      analyser.fftSize = 256
       analyser.smoothingTimeConstant = 0.2
 
       const source =
@@ -94,7 +97,7 @@ export default function Sound() {
 
     analyserRef.current.getByteFrequencyData(dataArray)
 
-    const barsCount = 80
+    const barsCount = optimizations.barsCount
     const usefulFreq = Math.floor(bufferLength * 0.35)
 
     // ================= ENERGY =================
@@ -283,7 +286,7 @@ const toggle = async () => {
       setIsPlaying(false);
 
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      setBars(new Array(80).fill(0.01));
+      setBars(new Array(optimizations.barsCount).fill(0.01));
     }
   } catch (err) {
     console.error(err);
@@ -302,9 +305,8 @@ return (
 
     {/* ================= BACKGROUND ================= */}
     <motion.div
-      animate={{
-        scale: 1 + energy * 0.03,
-        filter: `brightness(${1 + glow})`,
+      animate={optimizations.disableBackgroundScaling ? {} : {
+        scale: 1 + energy * 0.015,
       }}
       className="absolute inset-0 pointer-events-none"
     >
@@ -313,14 +315,14 @@ return (
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black via-black/60 to-black" />
 
       <motion.div
-        animate={{
+        animate={optimizations.disableBackgroundOpacity ? {} : {
           opacity: 0.15 + energy * 0.4,
         }}
         className="absolute inset-0 pointer-events-none bg-green-400/10 mix-blend-screen"
       />
 
       <motion.div
-        animate={{
+        animate={optimizations.disableBackgroundOpacity ? {} : {
           opacity: beat ? 0.3 : 0.08,
         }}
         className="absolute inset-0 pointer-events-none bg-white/10"
@@ -340,7 +342,7 @@ return (
           stiffness: 200,
           damping: 20,
         }}
-        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden"
+        className="relative pointer-events-auto touch-manipulation backdrop-blur-md bg-white/10 border border-white/10 rounded-[32px] p-6 w-[280px] sm:w-[340px] overflow-hidden"
       >
 
         {/* GLOW */}
@@ -349,7 +351,7 @@ return (
             opacity: 0.1 + glow * 0.3,
             scale: 1 + energy * 0.2,
           }}
-          className="absolute inset-0 pointer-events-none bg-green-400/20 blur-3xl"
+          className="absolute inset-0 bg-green-400/10"
         />
 
         {/* IMAGE */}
@@ -358,8 +360,8 @@ return (
             src="/shakira2.png"
             className="w-full h-full object-cover object-top pointer-events-none"
             animate={{
-              scale: 1 + energy * 0.02,
-              rotate: beat ? 1.5 : 0,
+              scale: optimizations.disableImageScaling ? 1 : 1 + energy * 0.02,
+              rotate: optimizations.disableImageRotation ? 0 : (beat ? 1.5 : 0),
             }}
           />
         </div>
@@ -424,7 +426,7 @@ return (
             key={index}
             className="rounded-full"
             animate={{
-              height: `${height * 160}px`,
+              height: `${height * 110}px`,
               opacity:
                 height > 0.03 ? 1 : 0.2,
             }}
@@ -456,12 +458,13 @@ return (
                   ? "#22c55e"
                   : "#3b82f6",
 
-              boxShadow:
+              boxShadow: optimizations.disableVisualizerGlow ? "none" : (
                 height > 0.75
                   ? "0 0 25px rgba(239,68,68,0.9)"
                   : height > 0.45
                   ? "0 0 20px rgba(34,197,94,0.7)"
-                  : "0 0 12px rgba(59,130,246,0.5)",
+                  : "0 0 12px rgba(59,130,246,0.5)"
+              ),
             }}
           />
         ))}

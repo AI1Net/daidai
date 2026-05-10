@@ -74,7 +74,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden mt-4 glass border border-white/20 rounded-3xl p-6 backdrop-blur-2xl"
+              className="lg:hidden mt-4 glass border border-white/20 rounded-3xl p-6 backdrop-blur-md"
             >
               <div className="flex flex-col gap-5 text-center font-semibold">
 
