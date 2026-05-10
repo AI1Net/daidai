@@ -238,10 +238,15 @@ export default function Sound() {
   // =========================
 const toggle = async () => {
   try {
-    if (!audioRef.current) return
+    const audio = audioRef.current
 
-    // INIT AUDIO ONLY ONCE
-    if (!initialized) {
+    if (!audio) return
+
+    // FORCE LOAD FOR MOBILE
+    audio.load()
+
+    // CREATE AUDIO CONTEXT ONLY AFTER USER TAP
+    if (!audioCtxRef.current) {
       const AudioContextClass =
         window.AudioContext ||
         (window as any).webkitAudioContext
@@ -254,9 +259,7 @@ const toggle = async () => {
       analyser.smoothingTimeConstant = 0.2
 
       const source =
-        ctx.createMediaElementSource(
-          audioRef.current
-        )
+        ctx.createMediaElementSource(audio)
 
       source.connect(analyser)
       analyser.connect(ctx.destination)
@@ -264,20 +267,23 @@ const toggle = async () => {
       audioCtxRef.current = ctx
       analyserRef.current = analyser
       sourceRef.current = source
-
-      setInitialized(true)
     }
 
-    // MOBILE FIX
+    // UNLOCK AUDIO ON MOBILE
     if (
-      audioCtxRef.current?.state ===
+      audioCtxRef.current.state ===
       "suspended"
     ) {
       await audioCtxRef.current.resume()
     }
 
-    if (audioRef.current.paused) {
-      await audioRef.current.play()
+    // PLAY / PAUSE
+    if (audio.paused) {
+      const playPromise = audio.play()
+
+      if (playPromise !== undefined) {
+        await playPromise
+      }
 
       setIsPlaying(true)
 
@@ -286,7 +292,7 @@ const toggle = async () => {
           updateVisualizer
         )
     } else {
-      audioRef.current.pause()
+      audio.pause()
 
       setIsPlaying(false)
 
@@ -297,7 +303,7 @@ const toggle = async () => {
       setBars(new Array(80).fill(0.01))
     }
   } catch (err) {
-    console.error("PLAYBACK ERROR:", err)
+    console.error(err)
   }
 }
 
@@ -474,8 +480,9 @@ const toggle = async () => {
       <audio
         ref={audioRef}
         loop
-        playsInline
         preload="auto"
+        playsInline
+        muted={false}
         crossOrigin="anonymous"
       >
         <source
