@@ -310,186 +310,192 @@ const toggle = async () => {
   const glow =
     Math.min(1, energy + (beat ? 0.5 : 0))
 
-  return (
-    <div className="relative w-full h-screen overflow-hidden bg-black text-white">
+return (
+  <div className="relative w-full h-screen overflow-hidden bg-black text-white">
 
-      {/* ================= BACKGROUND ================= */}
+    {/* ================= BACKGROUND ================= */}
+    <motion.div
+      animate={{
+        scale: 1 + energy * 0.03,
+        filter: `brightness(${1 + glow})`,
+      }}
+      className="absolute inset-0 pointer-events-none"
+    >
+      <div className="absolute inset-0 pointer-events-none bg-[url('/shakira.png')] bg-cover bg-center opacity-60" />
+
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black via-black/60 to-black" />
+
       <motion.div
         animate={{
-          scale: 1 + energy * 0.03,
-          filter: `brightness(${1 + glow})`,
+          opacity: 0.15 + energy * 0.4,
         }}
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none bg-green-400/10 mix-blend-screen"
+      />
+
+      <motion.div
+        animate={{
+          opacity: beat ? 0.3 : 0.08,
+        }}
+        className="absolute inset-0 pointer-events-none bg-white/10"
+      />
+    </motion.div>
+
+    {/* ================= MAIN PLAYER ================= */}
+    <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+
+      <motion.div
+        animate={{
+          scale: 1 + energy * 0.04,
+          y: beat ? -4 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 20,
+        }}
+        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[url('/shakira.png')] bg-cover bg-center opacity-60" />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/60 to-black" />
-
+        {/* GLOW */}
         <motion.div
           animate={{
-            opacity: 0.15 + energy * 0.4,
+            opacity: 0.1 + glow * 0.3,
+            scale: 1 + energy * 0.2,
           }}
-          className="absolute inset-0 bg-green-400/10 mix-blend-screen"
+          className="absolute inset-0 pointer-events-none bg-green-400/20 blur-3xl"
         />
 
-        <motion.div
-          animate={{
-            opacity: beat ? 0.3 : 0.08,
-          }}
-          className="absolute inset-0 bg-white/10"
-        />
-      </motion.div>
-
-      {/* ================= MAIN PLAYER ================= */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-
-        <motion.div
-          animate={{
-            scale: 1 + energy * 0.04,
-            y: beat ? -4 : 0,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 200,
-            damping: 20,
-          }}
-          className="relative backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden"
-        >
-
-          {/* GLOW */}
-          <motion.div
+        {/* IMAGE */}
+        <div className="relative z-10 w-full aspect-square overflow-hidden rounded-2xl">
+          <motion.img
+            src="/shakira2.png"
+            className="w-full h-full object-cover object-top pointer-events-none"
             animate={{
-              opacity: 0.1 + glow * 0.3,
-              scale: 1 + energy * 0.2,
+              scale: 1 + energy * 0.02,
+              rotate: beat ? 1.5 : 0,
             }}
-            className="absolute inset-0 bg-green-400/20 blur-3xl"
           />
-
-          {/* IMAGE */}
-            <div className="relative z-10 w-full aspect-square overflow-hidden rounded-2xl">
-            <motion.img
-                src="/shakira2.png"
-                className="w-full h-full object-cover object-top"
-                animate={{
-                scale: 1 + energy * 0.02,
-                rotate: beat ? 1.5 : 0,
-                }}
-            />
-            </div>
-
-          {/* INFO */}
-          <div className="relative z-10 mt-5 text-center">
-            <h1 className="text-2xl font-bold tracking-wide">
-              DAI DAI
-            </h1>
-
-            <p className="text-white/60 text-sm mt-1">
-              SHAKIRA X BURNA BOY
-            </p>
-          </div>
-
-          {/* CONTROLS */}
-          <div className="relative z-10 flex items-center justify-between mt-6">
-
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-            >
-              <SkipBack />
-            </motion.button>
-
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              whileHover={{ scale: 1.05 }}
-              onClick={toggle}
-              className="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center"
-            >
-              {isPlaying ? (
-                <Pause size={28} />
-              ) : (
-                <Play
-                  size={28}
-                  className="ml-1"
-                />
-              )}
-            </motion.button>
-
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-            >
-              <SkipForward />
-            </motion.button>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ================= VISUALIZER ================= */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-[95%]">
-
-        <div className="flex items-end justify-center gap-[4px] h-44">
-
-          {bars.map((height, index) => (
-            <motion.div
-              key={index}
-              className="rounded-full"
-              animate={{
-                height: `${height * 160}px`,
-                opacity:
-                  height > 0.03 ? 1 : 0.2,
-              }}
-              transition={{
-                height: {
-                  type: "spring",
-                  stiffness:
-                    height > 0.2
-                      ? 400
-                      : 180,
-                  damping:
-                    height > 0.2
-                      ? 24
-                      : 30,
-                  mass: 0.18,
-                },
-
-                opacity: {
-                  duration: 0.15,
-                },
-              }}
-            style={{
-            width: "8px",
-
-            background:
-                height > 0.75
-                ? "#ef4444" // 🔴 red (peak / beat)
-                : height > 0.45
-                ? "#22c55e" // 🟢 green (mid energy)
-                : "#3b82f6", // 🔵 blue (low energy)
-
-            boxShadow:
-                height > 0.75
-                ? "0 0 25px rgba(239,68,68,0.9)"
-                : height > 0.45
-                ? "0 0 20px rgba(34,197,94,0.7)"
-                : "0 0 12px rgba(59,130,246,0.5)",
-            }}
-            />
-          ))}
         </div>
-      </div>
 
-      {/* ================= AUDIO ================= */}
-      <audio
-        ref={audioRef}
-        loop
-        preload="auto"
-        playsInline
-        muted={false}
-        crossOrigin="anonymous"
-      >
-        <source
-          src="/dia-chant.mp3"
-          type="audio/mpeg"
-        />
-      </audio>
+        {/* INFO */}
+        <div className="relative z-10 mt-5 text-center pointer-events-none">
+          <h1 className="text-2xl font-bold tracking-wide">
+            DAI DAI
+          </h1>
+
+          <p className="text-white/60 text-sm mt-1">
+            SHAKIRA X BURNA BOY
+          </p>
+        </div>
+
+        {/* CONTROLS */}
+        <div className="relative z-50 flex items-center justify-between mt-6">
+
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className="touch-manipulation"
+          >
+            <SkipBack />
+          </motion.button>
+
+          <motion.button
+            onTouchStart={() => {}}
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            onClick={toggle}
+            className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
+            style={{
+              WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            {isPlaying ? (
+              <Pause size={28} />
+            ) : (
+              <Play
+                size={28}
+                className="ml-1"
+              />
+            )}
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className="touch-manipulation"
+          >
+            <SkipForward />
+          </motion.button>
+        </div>
+      </motion.div>
     </div>
-  )
+
+    {/* ================= VISUALIZER ================= */}
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 w-[95%] pointer-events-none">
+
+      <div className="flex items-end justify-center gap-[4px] h-44">
+
+        {bars.map((height, index) => (
+          <motion.div
+            key={index}
+            className="rounded-full"
+            animate={{
+              height: `${height * 160}px`,
+              opacity:
+                height > 0.03 ? 1 : 0.2,
+            }}
+            transition={{
+              height: {
+                type: "spring",
+                stiffness:
+                  height > 0.2
+                    ? 400
+                    : 180,
+                damping:
+                  height > 0.2
+                    ? 24
+                    : 30,
+                mass: 0.18,
+              },
+
+              opacity: {
+                duration: 0.15,
+              },
+            }}
+            style={{
+              width: "8px",
+
+              background:
+                height > 0.75
+                  ? "#ef4444"
+                  : height > 0.45
+                  ? "#22c55e"
+                  : "#3b82f6",
+
+              boxShadow:
+                height > 0.75
+                  ? "0 0 25px rgba(239,68,68,0.9)"
+                  : height > 0.45
+                  ? "0 0 20px rgba(34,197,94,0.7)"
+                  : "0 0 12px rgba(59,130,246,0.5)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* ================= AUDIO ================= */}
+    <audio
+      ref={audioRef}
+      loop
+      preload="auto"
+      playsInline
+      muted={false}
+      crossOrigin="anonymous"
+    >
+      <source
+        src="/dia-chant.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+  </div>
+)
 }
