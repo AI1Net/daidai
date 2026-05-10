@@ -15,6 +15,7 @@ export default function Sound() {
   const analyserRef = useRef<AnalyserNode | null>(null)
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
   const rafRef = useRef<number | null>(null)
+  const isTogglingRef = useRef(false)
 
   const [isPlaying, setIsPlaying] = useState(false)
   const [bars, setBars] = useState<number[]>(
@@ -236,69 +237,62 @@ export default function Sound() {
   // =========================
   // TOGGLE
   // =========================
-const isTogglingRef = useRef(false)
-
 const toggle = async () => {
-  if (isTogglingRef.current) return
-
-  isTogglingRef.current = true
+  if (isTogglingRef.current) return;
+  isTogglingRef.current = true;
 
   try {
-    const audio = audioRef.current
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    if (!audio) return
+    const AudioContextClass =
+      window.AudioContext || (window as any).webkitAudioContext;
 
     if (!audioCtxRef.current) {
-      const AudioContextClass =
-        window.AudioContext ||
-        (window as any).webkitAudioContext
-
-      const ctx = new AudioContextClass()
-
-      const analyser = ctx.createAnalyser()
-
-      analyser.fftSize = 1024
-      analyser.smoothingTimeConstant = 0.2
-
-      const source =
-        ctx.createMediaElementSource(audio)
-
-      source.connect(analyser)
-      analyser.connect(ctx.destination)
-
-      audioCtxRef.current = ctx
-      analyserRef.current = analyser
-      sourceRef.current = source
+      const ctx = new AudioContextClass();
+      audioCtxRef.current = ctx;
     }
 
-    if (
-      audioCtxRef.current.state ===
-      "suspended"
-    ) {
-      await audioCtxRef.current.resume()
+    // 🔥 MUST resume FIRST (important for Android)
+    if (audioCtxRef.current.state === "suspended") {
+      await audioCtxRef.current.resume();
+    }
+
+    // initialize analyser AFTER resume
+    if (!analyserRef.current) {
+      const ctx = audioCtxRef.current;
+
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 1024;
+      analyser.smoothingTimeConstant = 0.2;
+
+      const source = ctx.createMediaElementSource(audio);
+
+      source.connect(analyser);
+      analyser.connect(ctx.destination);
+
+      analyserRef.current = analyser;
+      sourceRef.current = source;
     }
 
     if (audio.paused) {
-      await audio.play()
-      setIsPlaying(true)
+      await audio.play();
+      setIsPlaying(true);
     } else {
-      audio.pause()
-      setIsPlaying(false)
+      audio.pause();
+      setIsPlaying(false);
 
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current)
-      }
-
-      setBars(new Array(80).fill(0.01))
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      setBars(new Array(80).fill(0.01));
     }
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 
   setTimeout(() => {
-    isTogglingRef.current = false
-  }, 250)
-}
+    isTogglingRef.current = false;
+  }, 300);
+};
 
   const glow =
     Math.min(1, energy + (beat ? 0.5 : 0))
@@ -334,7 +328,7 @@ return (
     </motion.div>
 
     {/* ================= MAIN PLAYER ================= */}
-    <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+    <div className="absolute inset-0 flex items-center justify-center -translate-y-2 sm:translate-y-0 z-30 pointer-events-none">
 
       <motion.div
         animate={{
@@ -346,7 +340,7 @@ return (
           stiffness: 200,
           damping: 20,
         }}
-        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden"
+        className="relative pointer-events-auto touch-manipulation backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[32px] p-6 w-[340px] overflow-hidden -translate-y-[6px] sm:translate-y-0"
       >
 
         {/* GLOW */}
@@ -392,7 +386,7 @@ return (
           </motion.button>
 
           <motion.button
-            onTouchStart={toggle}
+            onClick={toggle}
             whileTap={{ scale: 0.9 }}
             whileHover={{ scale: 1.05 }}
             className="relative z-50 w-16 h-16 rounded-full bg-white text-black flex items-center justify-center touch-manipulation"
@@ -480,7 +474,6 @@ return (
       loop
       preload="auto"
       playsInline
-      muted={false}
       crossOrigin="anonymous"
     >
       <source
